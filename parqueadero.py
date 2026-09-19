@@ -19,4 +19,52 @@ while i < n and registrados < CUPOS:
     hora_entrada = int(input("Hora de entrada (0-23): "))
     horas_permanencia = float(input("Horas que permanecera parqueado: "))
 
+    hora_invalida = hora_entrada < 0 or hora_entrada > 23
+    permanencia_invalida = horas_permanencia <= 0
+
+    if hora_invalida or permanencia_invalida:
+        print("Error: registro invalido (hora fuera de rango o permanencia <= 0). Vehiculo no contado.")
+    else:
+        advertencia = False
+        if tipo != "E" and tipo != "D" and tipo != "V":
+            tipo = "V"
+            advertencia = True
+
+        if tipo == "E":
+            if horas_permanencia <= 2:
+                tarifa = 0.0
+            else:
+                horas_adicionales = horas_permanencia - 2
+                tarifa = horas_adicionales * 800
+        elif tipo == "D":
+            tarifa = horas_permanencia * 500
+        else:
+            if horas_permanencia <= 1:
+                tarifa = 1500.0
+            else:
+                horas_adicionales = horas_permanencia - 1
+                tarifa = 1500 + horas_adicionales * 1200
+            if es_sabado:
+                tarifa = tarifa * 0.8
+
+        tarifa = round(tarifa, 2)
+
+        registrados += 1
+        total_recaudo += tarifa
+        suma_horas += horas_permanencia
+
+        if tipo == "E":
+            count_estudiantes += 1
+        elif tipo == "D":
+            count_docentes += 1
+        else:
+            count_visitantes += 1
+
+        print(f"Vehiculo {placa} registrado como {tipo}. Tarifa: ${tarifa}")
+        if advertencia:
+            print("Advertencia: tipo de usuario no reconocido, se trato como visitante.")
+
+        if registrados == CUPOS:
+            print("PARQUEADERO LLENO")
+
     i += 1
