@@ -1,7 +1,10 @@
+
+
 CUPOS = 30
 
 n = int(input("Ingrese el numero de vehiculos a registrar (N): "))
-es_sabado_str = input("Es sabado? (True/False): ")
+
+es_sabado_str = input("Es sabado? (SI/NO): ")
 es_sabado = es_sabado_str.strip().lower() == "true"
 
 registrados = 0
@@ -29,7 +32,6 @@ while i < n and registrados < CUPOS:
         if tipo != "E" and tipo != "D" and tipo != "V":
             tipo = "V"
             advertencia = True
-
         if tipo == "E":
             if horas_permanencia <= 2:
                 tarifa = 0.0
@@ -46,7 +48,6 @@ while i < n and registrados < CUPOS:
                 tarifa = 1500 + horas_adicionales * 1200
             if es_sabado:
                 tarifa = tarifa * 0.8
-                # Descuento nocturno: NO aplica si es sabado (logica reordenada)
         if (hora_entrada >= 19 or hora_entrada < 6) and not es_sabado:
             tarifa = tarifa * 0.9
 
@@ -71,3 +72,18 @@ while i < n and registrados < CUPOS:
             print("PARQUEADERO LLENO")
 
     i += 1
+
+if registrados > 0:
+    promedio = round(suma_horas / registrados, 2)
+else:
+    promedio = 0.0
+
+ocupacion = round(registrados / CUPOS * 100, 1)
+
+print("\n====== RESUMEN DEL DIA ======")
+print(f"Vehiculos registrados: {registrados}/{CUPOS}")
+print(f"Ocupacion: {ocupacion}%")
+print(f"Recaudo total: ${total_recaudo}")
+print(f"Estudiantes: {count_estudiantes} | Docentes: {count_docentes} | Visitantes: {count_visitantes}")
+print(f"Promedio de permanencia: {promedio} horas")
+print("===============================")
