@@ -46,6 +46,9 @@ while i < n and registrados < CUPOS:
                 tarifa = 1500 + horas_adicionales * 1200
             if es_sabado:
                 tarifa = tarifa * 0.8
+                # Descuento nocturno: NO aplica si es sabado (logica reordenada)
+        if (hora_entrada >= 19 or hora_entrada < 6) and not es_sabado:
+            tarifa = tarifa * 0.9
 
         tarifa = round(tarifa, 2)
 
